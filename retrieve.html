@@ -1,0 +1,127 @@
+<html>
+    <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <title>Retrieve</title>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        
+        li {
+            float: left;
+        }
+        
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover {
+            background-color: #111;
+        }
+    </style>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script></head>
+<body bgcolor="skyblue">
+<B><h1><center>BOOKS DATA</center></h1></B>
+      <ul>
+        <li><a class="active" href="insert.html">Create</a></li>
+        </div>
+        <li><a href="retrieve.html">Retrieve</a></li>
+        <li><a href="update.html">Update</a></li>
+        <li><a href="delete.html">Delete</a></li>
+        <li><a href="deleteselected.html">Delete Selected</a></li>
+    </ul><br><br><br><br>
+  
+    <div   ng-app="myApp" ng-controller="ctrl3">
+    <br><br><br><br>
+    <div align="center">
+        <div style="width:350px; border: solid 2px #333333; " align="left">
+            <div style="background-color:#333333; color:#FFFFFF; padding:3px;"><b>Get Book Details</b></div>
+
+            <div style="margin:40px">
+
+                <form >
+                        <label>BOOK NAME &nbsp;&nbsp;&nbsp;:</label><input ng-model="bname" class="box" /><br /><br />
+                        <input type="button" value="Get Book Details" ng-click="myFunc()" />
+                    </form>
+
+                
+            </div>
+                                
+
+
+        </div>
+
+    </div>
+        <div><br><br>
+            <table  width="50%" align="center">
+    <tr ng-repeat="x in records" bgcolor="skyblue">
+        <th>BOOKID</th>
+        <td>BOOK NAME</th>
+        <th>COST</th>
+        <th>PUBLISHER NAME</th>
+        <th>AUTHOR NAME</th></tr>
+
+    <tr ng-repeat="x in names" bgcolor="grey">
+        <td>{{x.bid}}</td>
+        <td>{{x.bname}}</td>
+        <td>{{x.cost}}</td>
+        <td>{{x.pname}}</td>
+        <td>{{x.aname}}</td>
+</tr>
+                
+</table>
+</div>
+    </div>
+
+    <script>
+                          var app = angular.module('myApp', []); 
+                          app.controller('ctrl3', function ($scope, $http) {
+                              
+                              $scope.myFunc = function() {
+                           $scope.records = [
+    {
+      "bid" : "bid",
+      "bname" : "bname",
+        "cost":"cost",
+        "pname": "pname",
+        "aname":"aname"
+    }]
+                                  var bname=$scope.bname;
+                              var req = { 
+                                  method: 'POST',
+                                  url: 'http://localhost:3000/retrieve', 
+                   headers: { 'Content-Type': 'Application/json' },
+                   data: {
+                          bname: bname, 
+                         }
+                              }
+                          
+                                  $http(req)
+                          .then(function (response) {
+                          $scope.names = response.data;
+                                      
+                                      
+                         });
+                                  };
+                                  
+        
+        });
+        </script>
+
+            </body>
+                </html>

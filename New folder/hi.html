@@ -1,0 +1,63 @@
+<html>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body bgcolor="#FFFFFF">
+    <br><br><br><br>
+    <div align="center"  ng-app="myApp" ng-controller="ctrl">
+        <div style="width:300px; border: solid 1px #333333; " align="left">
+            <div style="background-color:#333333; color:#FFFFFF; padding:3px;"><b>Create</b></div>
+
+            <div style="margin:30px">
+
+                <form>
+                    <label>Name  &nbsp;&nbsp;&nbsp;:</label><input ng-model="name" class="box" /><br /><br />
+                    <label>Email  &nbsp;&nbsp;&nbsp;:</label><input ng-model="email" class="box" /><br/><br />
+                    <label>Mobile  &nbsp;:</label><input ng-model="mob" class="box" /><br /><br />
+                    <label>City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</label><input ng-model="city" class="box" /><br/><br />
+                    <label>Pincode  :</label><input ng-model="pincode" class="box" /><br/><br />
+                    <input type="button" value="OK" ng-click="myFunc()"/>
+                </form>
+                
+                
+                <p>{{ names }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+                          var app = angular.module('myApp', []); 
+                          app.controller('ctrl', function ($scope, $http) {
+                              $scope.myFunc = function() {
+                                  alert("called");
+                          var name=$scope.name;
+                          var email=$scope.email;
+                          var mob=$scope.mob;
+                          var city=$scope.city;
+                          var pincode=$scope.pincode;
+                              var req = { 
+                                  method: 'POST',
+                                  url: 'http://localhost:3000/data', 
+                   headers: { 'Content-Type': 'Application/json' },
+                   data: {
+                          name: name, 
+                          email: email,
+                          mob:mob,
+                          city:city,
+                          pincode:pincode
+                         }
+                              }
+                          
+                                  $http(req)
+                          .then(function (response) {
+                          $scope.names = response.data;
+                         });
+                                  };
+                                  
+                  });
+        </script>
+
+            </body>
+                </html>

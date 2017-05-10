@@ -1,0 +1,99 @@
+<!-- Page for updating the student informanation-->
+<html>
+
+<body>
+    <div ng-controller="UpdateCtrl">
+        <div id="submitDiv1" class="container" style="padding: 15px; padding-top: 2px">
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" id="email" ng-change="clearData()" ng-model="name" placeholder="enter name" />
+                <div>
+                    <br>
+
+                    <div class="text-center">
+                        <ul class="pagination pagination-lg">
+                            <form>
+                                <input type="button" value="Get Data" ng-click="update()" />
+                            </form>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="padding" id="hideData" style="display:none;">
+                    <form>
+                        <div class="form-group has-feedback">
+                            <input type="text" placeholder="Name" class="form-control" id="name" value={{name}}>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="email" id="email" class="form-control" placeholder="email" value={{email}}>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="text" id="mob" class="form-control" placeholder="Phone" value={{mob}}>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control" id="city" placeholder="Department" value={{city}}>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control" id="pincode" placeholder="Department" value={{pincode}}>
+                        </div>
+
+                        <div class="text-center">
+                            <ul class="pagination pagination-lg">
+                                <li class="pageBtn"><a id="submit" ng-click="updateData()">Update Data</a></li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            app.controller('UpdateCtrl', function($scope, $http, $window) {
+                $scope.update = function() {
+                    var name = document.getElementById('name').value;
+
+                    $http.post("http://localhost:3000/retrieve").then(function(response) {
+                        if (response.data.error == undefined) {
+                            $scope.name = response.data.result.name;
+                            $scope.email = response.data.result.email;
+                            $scope.mob = response.data.result.mob;
+                            $scope.city = response.data.result.city;
+                            $scope.pincode = response.data.result.pincode;
+
+                            document.getElementById("hideData").style.display = "block";
+                        } else {
+                            $window.alert('Please Check Entered ID');
+
+                        }
+                    });
+            }
+            $scope.updateData = function() {
+
+                var name = document.getElementById('name').value;
+                var email = document.getElementById('email').value;
+                var mob = document.getElementById('mob').value;
+                var city = document.getElementById('city').value;
+                var pincode = document.getElementById('pincode').value;
+
+                $http.post("http://localhost:3000/update", {
+                    "name": name,
+                    "email": email,
+                    "mob": mob,
+                    "city": city,
+                    "pincode": pincode
+                }).then(function(response) {
+                    if (response.data.error == undefined) {
+                        $window.alert('Data Updated Successfully!!');
+                    } else {
+                        $window.alert('Sorry insertion failed. Check your mail !!');
+                    }
+                })
+            }
+            $scope.clearData = function() {
+                document.getElementById("hideData").style.display = "block";
+            }
+            });
+
+        </script>
+    </div>
+</body>
+
+</html>
